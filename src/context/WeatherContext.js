@@ -1,43 +1,38 @@
-import { createContext, useState, useContext, useEffect } from "react";
-import SearchContext from "./SearchContext";
-import { apiKey, apiUrl } from "../api";
-import axios from "axios";
+import citiesJSON from '../data/cities_of_turkey.json';
+import { useContext, createContext } from 'react';
+import { useState } from 'react'; 
 
 const WeatherContext = createContext();
 
-export const WeatherContextProvider = ({ children }) => {
-  const [weather, setWeather] = useState();
-  const [forecast, setForecast] = useState();
+export const WeatherProvider = ({ children }) => {
 
-  const values = { weather, setWeather, forecast, setForecast };
-  const { city } = useContext(SearchContext);
+const [weather, setWeather] = useState([]);
 
-  useEffect(() => {
-    if (city) {
-      const [lat, lon] = city.value.split(" ");
-      const WeatherAxios = axios(
-        `${apiUrl}/current?lat=${lat}&lon=${lon}&key=${apiKey}&lang=tr`
-      );
-      // .then(async (res) => {
-      //   await setWeather(res.data.data[0]);
-      // })
-      // .catch((e) => console.log(e));
-      const ForecastAxios = axios(
-        `${apiUrl}/forecast/daily?lat=${lat}&lon=${lon}&key=${apiKey}&lang=tr&days=7`
-      );
+const [city, setCity] = useState(citiesJSON.find(item => item.id === 35));
 
-      Promise.all([WeatherAxios, ForecastAxios])
-        .then(async (res) => {
-          setWeather(await res[0].data.data[0]);
-          setForecast(await res[1].data.data);
-        })
-        .catch((e) => console.log(e));
-    }
-  }, [city]);
+const days = [
+    'Sun',
+    'Mon',
+    'Tue',
+    'Wed',
+    'Thu',
+    'Fri',
+    'Sat',
+];
 
-  return (
-    <WeatherContext.Provider value={values}>{children}</WeatherContext.Provider>
-  );
+const value = {
+    city,
+    setCity,
+    citiesJSON,
+    days,
+    weather,
+    setWeather,
+};
+return (
+    <WeatherContext.Provider value={value}>
+    {children}
+    </WeatherContext.Provider>
+);
 };
 
-export default WeatherContext;
+export const useWeather = () => useContext(WeatherContext);
