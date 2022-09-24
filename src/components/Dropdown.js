@@ -3,6 +3,7 @@ function Dropdown() {
     const { city, setCity, citiesJSON } = useWeather();
 
     const changeCity = (e) => {
+    // eslint-disable-next-line array-callback-return
     citiesJSON.filter((item) => {
         if (item.name === e.target.value) {
         setCity(item);

@@ -50,5 +50,4 @@ function DaysCard() {
     );
 }
 
-
 export default DaysCard;
