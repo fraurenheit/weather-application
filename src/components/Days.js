@@ -12,6 +12,9 @@ function DaysCard() {
     console.log((await res).data.daily)
     setWeather((await res).data.daily);
     };
+
+    //add
+
     getData();
 }, [city, setWeather]);
     return (
@@ -46,5 +49,6 @@ function DaysCard() {
     </div>
     );
 }
+
 
 export default DaysCard;

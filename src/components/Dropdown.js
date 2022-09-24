@@ -4,7 +4,7 @@ function Dropdown() {
 
     const changeCity = (e) => {
     citiesJSON.filter((item) => {
-        if (item.name == e.target.value) {
+        if (item.name === e.target.value) {
         setCity(item);
     }
     });
